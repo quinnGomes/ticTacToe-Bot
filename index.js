@@ -4,7 +4,9 @@ const bot = new discord.Client()
 const config = require("./config.json")
 let user1name = ""
 let user2name = ""
-let mode = "p1";
+
+//make sure this is set properly 
+let mode = "p2";
 
 
 
@@ -62,7 +64,11 @@ bot.on("message", (msg) => {
                 }
 
             })
+
             collector.on("end", (collected) => {
+
+                //in here you need to call a different fun
+
                 console.log(`collected ${collected.size} items`)
                 // this is where we would call a function to draw out the inital tic tac toe bored
                 printBoard(msg.channel)
@@ -72,9 +78,6 @@ bot.on("message", (msg) => {
 
             })
         })
-
-
-
 
     }
 
@@ -86,13 +89,7 @@ bot.on("message", (msg) => {
 
 function checkWinner(player) {
 
-    //if(board[0] == board[1] == board[2] == player)
 
-    //horizontals
-
-    // console.log(board[0].length)
-    // console.log(board[1].length)
-    // console.log(board[2].length)
 
 
     if (board[0] == board[1] && board[1] == board[2] && board[2] == player) {
@@ -128,25 +125,30 @@ function checkWinner(player) {
     return false
 
 
-
-
-
 }
 
 
-//make a function called playerTurn
+
+//TODO: make it so that this works for either player depending on who's turn we pass in 
+//make it so calling playerturn is like playerTurn(channel,"x" or "o")
 
 function playerTurn(channel) {
 
     const filter = (msg) => {
+        //this makes it so player1 is the only user we accept messages from 
+        //this is where you would need to change the filter depending on who's turn it is 
+        //note : user2 and user1 are already set by code we wrote earlier
+        
         return msg.author.tag == user1name;
-        // return true;
+ 
     }
 
     const collector = channel.createMessageCollector(filter, { time: 30000 })
 
     collector.on("collect", (msg) => {
         let pInput = Number(msg.content);
+
+        //editboard needs to edit either "x" or "o" depending on playerturn
         editBoard(pInput, "x");
         msg.delete(
         )
@@ -155,11 +157,9 @@ function playerTurn(channel) {
 
     collector.on("end", (collected) => {
         console.log("collection ended")
-        //check for winner, if no one won then we do input again 
-
-        // console.log("did player win : " + checkWinner("x"));
 
 
+        //checkwinner needs to check either "x" or "o" depending on the actual player
         if (checkWinner("x") == true) {
             endGame("x", channel)
         }
@@ -171,11 +171,10 @@ function playerTurn(channel) {
 
 }
 
-//end game 
 
 function endGame(player, channel) {
 
-    //send a message of what player one
+
 
     channel.send("player " + player + " won")
 
