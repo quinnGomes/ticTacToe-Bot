@@ -1,4 +1,3 @@
-//const varName = require("libaryname.js")
 
 const discord = require("discord.js")
 const bot = new discord.Client()

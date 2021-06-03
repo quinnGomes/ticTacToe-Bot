@@ -1,0 +1,5 @@
+-to make a new commit 
+
+git add . 
+git commit -m "a message of somekind"
+git push 
