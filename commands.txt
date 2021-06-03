@@ -1,0 +1,13 @@
+*startGame [@user1] [@user2]
+    -random selection of x and o 
+
+*stopGame
+
+*turn [cell (1-9)]
+
+
+
+----utility----
+*help
+*setPrefix
+    -always always always add this command
